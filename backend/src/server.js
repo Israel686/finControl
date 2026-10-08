@@ -6,7 +6,7 @@ async function serverInit() {
         await app.listen({
             port: 3333
         });
-
+        
         console.log("Servidor roando http://localhost:3333");
 
     }catch(erro){
