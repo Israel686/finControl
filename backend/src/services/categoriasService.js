@@ -1,7 +1,6 @@
 import pool from '../dataBase/db.js'
-import { app } from '../app.js'
 
-async function todasCategorias() {
+export async function todasCategorias() {
     const resultado = await pool.query(`SELECT * FROM categorias`);
 
     return resultado.rows;
