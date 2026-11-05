@@ -1,15 +1,27 @@
-import { no } from "zod/v4/locales";
-import { criarCategoria, todasCategorias } from "../services/categoriasService.js"
+import {
+    criarCategoria,
+    todasCategorias
+} from "../services/categoriasService.js";
 
-export default async function Catergoriasroutes(app) {
+export default async function categoriasRoutes(app) {
     app.get("/categorias", async (request, reply) => {
-        const result = await todasCategorias();
+        const categorias = await todasCategorias();
 
-        return result.rows;
+        return reply.code(200).send(categorias);
     });
 
     app.post("/categorias", async (request, reply) => {
-        const novaCategoria = await criarCategoria(request.body);
+        const nome = request.body?.nome;
+
+        if (typeof nome !== "string" || nome.trim() === "") {
+            return reply.code(400).send({
+                mensagem: "Informe o nome da categoria"
+            });
+        }
+
+        const novaCategoria = await criarCategoria({
+            nome: nome.trim()
+        });
 
         return reply.code(201).send(novaCategoria);
     });
